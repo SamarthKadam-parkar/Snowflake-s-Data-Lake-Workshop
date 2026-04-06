@@ -118,3 +118,44 @@ SELECT
  ,40 as expected
  ,'Trails Northern Extent' as description
  ); 
+ -----------------------------------------------
+ select GRADER(step, (actual = expected), actual, expected, description) as graded_results from
+(
+  SELECT
+  'DLKW08' as step
+  ,( select truncate(distance_to_melanies)
+      from mels_smoothie_challenge_db.locations.denver_bike_shops
+      where name like '%Mojo%') as actual
+  ,14084 as expected
+  ,'Bike Shop View Distance Calc works' as description
+ ); 
+
+ -------------------------------------------------------------
+ select GRADER(step, (actual = expected), actual, expected, description) as graded_results from
+(
+  SELECT
+  'DLKW09' as step
+  ,( select row_count
+       from mels_smoothie_challenge_db.information_schema.tables
+       where table_schema = 'TRAILS'
+       and table_name = 'SMV_CHERRY_CREEK_TRAIL'
+    ) as actual
+  ,3526 as expected
+  ,'Secure Materialized View Created' as description
+ );
+ -------------------------------------------------------------
+
+ select GRADER(step, (actual = expected), actual, expected,
+description) as graded_results from
+(
+    SELECT
+    'DLKW10' as step
+    ,( select row_count
+        from MY_ICEBERG_DB.INFORMATION_SCHEMA.TABLES
+        where table_catalog = 'MY_ICEBERG_DB'
+        and table_name like 'CCT_%'
+        and table_type = 'BASE TABLE')
+    as actual
+    ,100 as expected
+    ,'Iceberg table created and populated!' as description
+);
