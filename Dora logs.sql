@@ -76,3 +76,45 @@ SELECT
  ,6 as expected
  ,'Relentlessly resourceful' as description
 );
+
+------------------------------------------
+
+select GRADER(step, (actual = expected), actual, expected, description) as graded_results from
+(
+SELECT
+'DLKW05' as step
+ ,( select sum(tally)
+   from
+     (select count(*) as tally
+      from mels_smoothie_challenge_db.information_schema.stages 
+      union all
+      select count(*) as tally
+      from mels_smoothie_challenge_db.information_schema.file_formats)) as actual
+ ,4 as expected
+ ,'Camila\'s Trail Data is Ready to Query' as description
+ ); 
+
+ -----------------------------------------
+ select GRADER(step, (actual = expected), actual, expected, description) as graded_results from
+(
+SELECT
+'DLKW06' as step
+ ,( select count(*) as tally
+      from mels_smoothie_challenge_db.information_schema.views 
+      where table_name in ('CHERRY_CREEK_TRAIL','DENVER_AREA_TRAILS')) as actual
+ ,2 as expected
+ ,'Mel\'s views on the geospatial data from Camila' as description
+ ); 
+
+ ----------------------------------------------
+
+ select GRADER(step, (actual = expected), actual, expected, description) as graded_results from
+(
+ SELECT
+  'DLKW07' as step
+   ,( select round(max(max_northsouth))
+      from MELS_SMOOTHIE_CHALLENGE_DB.TRAILS.TRAILS_AND_BOUNDARIES)
+      as actual
+ ,40 as expected
+ ,'Trails Northern Extent' as description
+ ); 
